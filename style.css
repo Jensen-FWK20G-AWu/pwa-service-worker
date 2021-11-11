@@ -1,0 +1,10 @@
+#animalImg {
+	width: 10em;
+	max-height: 10em;
+}
+
+#factList > * {
+	padding: 1em;
+	border: 1px solid gray;
+	margin: 0.4em;
+}
