@@ -4,7 +4,7 @@ console.log('Jag körs INNAN DOM har laddats');
 async function registerSW() {
 	if( 'serviceWorker' in navigator ) {
 		try {
-			await navigator.serviceWorker.register('./src/serviceWorker.js')
+			await navigator.serviceWorker.register('./serviceWorker.js')
 			console.log('Service worker är registrerad.')
 		} catch(error) {
 			console.log('Kunde inte registrera service worker: ' + error.message);

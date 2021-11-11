@@ -4,15 +4,28 @@ const sendRequestButton = document.querySelector('#sendRequestButton')
 const resultParagraph = document.querySelector('#resultParagraph')
 
 sendRequestButton.addEventListener('click', async () => {
+	let text = ''
 	try {
 		const response = await fetch('https://forverkliga.se/JavaScript/api/simple.php?key=value')
-		const data = await response.json()
-		resultParagraph.innerHTML = 'Got data from API. The clock is: ' + data.time
-			+ '<br><br>' + resultParagraph.innerHTML
+		text = await response.text()
+		data = JSON.parse(text)
+		addMessage('Got data from API. The clock is: ' + data.time)
 
 	} catch(error) {
-		resultParagraph.innerHTML = 'Failed to fetch data from API.<br>'
-			+ error.message + '<br><br>' + resultParagraph.innerHTML
+		if( text !== '' ) {
+			addMessage(text)
+		} else {
+			addMessage('Failed to fetch data from API.', error.message)
+		}
 	}
 	
 })
+
+function addMessage(message, error) {
+	if( error ) {
+		resultParagraph.innerHTML = message + '<br>'
+				+ error + '<br><br>' + resultParagraph.innerHTML
+	} else {
+		resultParagraph.innerHTML = message + '<br><br>' + resultParagraph.innerHTML
+	}
+}

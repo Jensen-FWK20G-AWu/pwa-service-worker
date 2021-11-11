@@ -14,6 +14,18 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
 	console.log('Fångade ett request: ', event.request.url);
-	// 1. event.respondWith
-	// 2. flytta filer till samma mapp som index.html
+
+	if( !navigator.onLine ) {
+		// Offline-läge, svara på alla request med cachad resurs om den finns
+		event.respondWith(new Response('<h1>Sorry, you are offline</h1> <p>Wait for while and try again </p>', 
+			{ headers: { 'Content-Type': 'text/html' } } ));
+		return;
+	}
+	
+	if( event.request.url.includes('simple.php') ) {
+		event.respondWith(new Response('<h1>This API is not allowed anymore</h1> <p>Try something else! </p>', 
+			{ headers: { 'Content-Type': 'text/html' } } ));
+	} else {
+		event.respondWith( fetch(event.request) )
+	}
 })
